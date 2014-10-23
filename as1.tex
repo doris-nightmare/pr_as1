@@ -1,0 +1,266 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{bm}
+\begin{document}
+	\title{Pattern Recognition Assignment 1}
+	\author{Doris Yang}
+\maketitle
+
+\section{Dishonest Gambler}
+\begin{align*}
+	Pr(6|A) &= 1/6 \\
+	Pr(6|B) &= 0.8 \\
+	Pr(6|C)& = 0.04 \\
+	Pr(B|6) & = \frac{P(B) \times P(6|B)}{P(A) \times P(6|A) +
+							  P(B) \times P(6|B) +
+							  P(C) \times P(6|C)} \\
+			&  = \frac{0.2 \times 0.8}{0.6 \times 1/6 
+					 + 0.2 \times 0.8 + 0.2 \times 0.04} \\
+			& = 0.597
+\end{align*}
+
+\section{Three-class Classification}
+classes $\omega_1 \ \omega_2 \ \omega_3$ are equally probable
+with class-conditional $ p(x|\omega_i)=N(\mu_i, \Sigma_i)$ with\\
+\[
+ \mu_1= \left( \begin{array}{c} 2\\ 2\end{array}\right) \quad
+ \mu_2= \left( \begin{array}{c} 2\\ -2\end{array}\right) \quad
+ \mu_3= \left( \begin{array}{c} -2\\ 0\end{array}\right)   
+\]
+and identical covariance matrices 
+$\Sigma_1 = \Sigma_2 = \Sigma_3 = \sigma^2I$ where $\sigma^2=0.25$
+
+\subsection{Discriminant Functions}
+In general, the discriminant function is 
+\begin{equation*}
+	g_i(x) = -\tfrac{1}{2}(x-\mu_i)^T\Sigma^{-1}_i(x-\mu_i) + lnP(\omega_i) + c_i
+\end{equation*}
+In this question, since all covariance matrices are the same, thus
+\begin{align*}
+&	g_i(x) = \omega^T_ix + \omega_{i0} \\
+&	\omega_i = \Sigma^{-1}\mu_i \\
+&	\omega_{i0} = lnP(\omega_i)-\tfrac{1}{2}\mu^T_i\Sigma^{-1}\mu_i
+\end{align*}
+
+Because $\omega_1$,  $\omega_2$,  $\omega_3$ are equally probable, 
+$P(\omega_1)=P(\omega_2)=P(\omega_3)=\tfrac{1}{3}$
+\begin{align*}
+	\omega_1 & = \left[ \begin{array}{c c} 0.25 & 0 \\ 0 & 0.25 \end{array} \right]^{-1}
+		\left[\begin{array}{c} 2 \\ 2 \end{array}\right]
+		= 	\left[\begin{array}{c} 8 \\ 8 \end{array}\right] 	\\		
+	\omega_{i0}  & = ln\dfrac{1}{3} -
+			 \dfrac{1}{2} \left[\begin{array}{c} 2 \\ 2 \end{array}\right]^T
+			 \left[ \begin{array}{c c} 0.25 & 0 \\ 0 & 0.25 \end{array} \right]^{-1}
+			 \left[\begin{array}{c} 2 \\ 2 \end{array}\right] \\
+			  & = -1.099 - 16 = -17.099 \\
+	\therefore g_1(x) & =  \left[ \begin{array}{c} 8 \\ 8 \end{array} \right]^Tx -17.099
+\end{align*}
+
+\begin{align*}
+	\omega_1 & = \left[ \begin{array}{c c} 0.25 & 0 \\ 0 & 0.25 \end{array} \right]^{-1}
+		\left[\begin{array}{c} 2 \\ -2 \end{array}\right]
+		= 	\left[\begin{array}{c} 8 \\ -8 \end{array}\right] 	\\		
+	\omega_{i0}  & = ln\dfrac{1}{3} -
+			 \dfrac{1}{2} \left[\begin{array}{c} 2 \\ -2 \end{array}\right]^T
+			 \left[ \begin{array}{c c} 0.25 & 0 \\ 0 & 0.25 \end{array} \right]^{-1}
+			 \left[\begin{array}{c} 2 \\ -2 \end{array}\right] \\
+			  & = -1.099 - 16 = -17.099 \\
+	\therefore g_2(x) & =  \left[ \begin{array}{c} 8 \\ -8 \end{array} \right]^Tx -17.099
+\end{align*}
+
+\begin{align*}
+	\omega_1 & = \left[ \begin{array}{c c} 0.25 & 0 \\ 0 & 0.25 \end{array} \right]^{-1}
+		\left[\begin{array}{c} -2 \\ 0 \end{array}\right]
+		= 	\left[\begin{array}{c} -8 \\ 0 \end{array}\right] 	\\		
+	\omega_{i0}  & = ln\dfrac{1}{3} -
+			 \dfrac{1}{2} \left[\begin{array}{c} -2 \\ 0 \end{array}\right]^T
+			 \left[ \begin{array}{c c} 0.25 & 0 \\ 0 & 0.25 \end{array} \right]^{-1}
+			 \left[\begin{array}{c} -2 \\ 0 \end{array}\right] \\
+			  & = -1.099 - 8 = -9.099 \\
+	\therefore g_3(x) & =  \left[ \begin{array}{c} -8 \\ 0 \end{array} \right]^Tx -9.099
+\end{align*}
+
+\subsection{Decision Regions and Boundaries}
+\subsubsection{Decision Boundaries}
+
+Let $g_1(x) = g_2(x) $:
+\begin{equation*}
+	l_1: \left[\begin{array}{c} 0 \\ 1 \end{array}\right]^T x = 0
+\end{equation*}
+Let $g_2(x) = g_3(x)$:
+\begin{equation*}
+	l_2: \left[\begin{array}{c} 2 \\ -1 \end{array}\right]^T x -1 = 0
+\end{equation*}
+Let $g_1(x) = g_3(x)$:
+\begin{equation*}
+	l_3:\left[\begin{array}{c} 2 \\ 1 \end{array}\right]^T x -1 = 0
+\end{equation*}
+
+\subsubsection{Decision Region}
+\begin{itemize}
+	\item class $\omega_1$: the region above $l_1$ and $l_3$
+	\item class $\omega_2$: the region below $l_1$ and $l_2$
+	\item class $\omega_3$: the region above $l2$ and below $l_3$
+\end{itemize}
+
+\subsection{Plots}
+Figure~\ref{fig:3_classes} shows the distribution and corresponding 
+decision boundaries for the three classes.
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.5\linewidth]{figure/3_classes.png}
+	\caption{Decision Boundaries for Samples from Three Classes}
+	\label{fig:3_classes}
+\end{figure}
+
+\subsection{MLE}
+For multivariate Gaussian distribution:
+\begin{align*}
+	p(\bm{x_k};\bm{\mu})= \dfrac{1}{(2\pi)^{l/2}|\Sigma|^{1/2}}
+		exp\left( -\dfrac{1}{2}(\bm{x_k-\mu})^T \Sigma^{-1} (\bm{x_k-\mu}) \right)
+\end{align*}
+ Construct the likelihood function:
+\begin{align*}
+	L(\bm{\mu_i}) = L(\bm{\Sigma_i})
+	 = N \cdot ln \dfrac{1}{(2\pi)^{l/2} |\Sigma_i|^{1/2}} 
+		 - \dfrac{1}{2} \sum_{k=1}^N(\bm{x_k-\mu_i})^T\Sigma^{-1}(\bm{x_k-\mu_i})
+\end{align*}
+To calculate the maximum likelihood estimate, let $\dfrac{\partial L(\bm{\mu})}{\partial \bm{\mu}}=0$
+and  $\dfrac{\partial L(\Sigma)}{\partial \Sigma}=0$
+\begin{align*}
+	& \dfrac{\partial L(\bm{\mu})}{\partial \bm{\mu}} \equiv
+	\left[
+		\begin{array}{c}
+		\tfrac{\partial L}{\partial \bm{\mu_{1}}} \\
+		\tfrac{\partial L}{\partial \bm{\mu_{2}}} \\
+		\vdots \\
+		\tfrac{\partial L}{\partial \bm{\mu_{l}}} 
+		\end{array}
+	\right]
+	 = \sum_{k=1}^N(\bm{x_k}-\bm{\mu})\Sigma^{-1}=0
+	 \\
+	 \therefore &  \bm{\hat{\mu}}  = \dfrac{\sum_{k=1}^N \bm{x_k}}{N} 	
+\end{align*}
+
+\begin{align*}
+	&	\dfrac{\partial L(\Sigma)}{\partial \Sigma}=  0\\
+	%	-\dfrac{1}{2\sigma^2}N + \dfrac{1}{2\sigma^4} \sum_{k=1}^N(x_k-\mu_i)^2 = 0 \qquad
+	 \therefore & \hat{\Sigma} 
+		= \dfrac{1}{N}\sum_{k=1}^N(\bm{x_k}-\bm{\hat{\mu}})(\bm{x_k - \hat{\mu}})^T
+\end{align*}
+
+Thus,
+	\begin{itemize}
+	\item $\hat{\mu_1}= \left[\begin{array}{c} 1.987 \\ 1.971 \end{array}\right]$ \qquad
+	 $\hat{\Sigma_1}= \left[\begin{array}{c c} 0.264 & 0.017 \\ 0.017 & 0.228 \end{array}\right]$
+	 
+	\item $\hat{\mu_2}= \left[\begin{array}{c} 1.909 \\ -2.042 \end{array}\right]$
+	$\hat{\Sigma_2}= \left[\begin{array}{c c} 0.237 & 0.051 \\ 0.051 & 0.258 \end{array}\right]$
+	
+	\item $\hat{\mu_3}= \left[\begin{array}{c} -1.996\\ 0.045 \end{array}\right]$
+	$\hat{\Sigma_3}= \left[\begin{array}{c c} 0.227 & -0.016 \\ -0.016 & 0.291 \end{array}\right]$
+	\end{itemize}
+	
+\subsection{Decision Boundaries}
+In this case, the covariance matrices are arbitrary. Thus, the resulting discriminant function
+are quadratic:
+\begin{align*}
+	g_i(x) & = \bm{x^TW_ix+w^T_ix}+\omega_{i0}\\
+	\bm{W_i}&=\dfrac{1}{2}\Sigma_i^{-1}\\
+	\bm{w_i}&= \Sigma_i^{-1}\bm{\mu_i}\\
+	\omega_{i0} &= -\dfrac{1}{2} \bm{\mu_i}^T\Sigma_i^{-1}\bm{\mu_i}
+		- \dfrac{1}{2}ln|\Sigma_i|+lnP(\omega_i)
+\end{align*}
+	\begin{align*}
+	g_1'(x) &= \bm{x}^T 
+		\left[\begin{array}{c c} 1.902 & -0.146 \\ -0.146 & 2.208 \end{array}\right]
+		\bm{x} + \left[\begin{array}{c} 6.984\\ 8.124 \end{array}\right]^T \bm{x}
+		-14.945 \\
+	g_2'(x)& = \bm{x}^T 
+		\left[\begin{array}{c c} 2.201 & -0.436 \\ -0.436 & 2.026 \end{array}\right]
+		\bm{x} + \left[\begin{array}{c} 10.188 \\ -9.938 \end{array}\right]^T \bm{x}
+		-19.874\\
+	g_3'(x)& = \bm{x}^T 
+		\left[\begin{array}{c c} 2.214 & 0.123 \\ 0.123 & 1.728 \end{array}\right]
+		\bm{x} + \left[\begin{array}{c} -8.828 \\ -0.335 \end{array}\right]^T \bm{x}
+		-8.803
+	\end{align*}
+	
+	Let $g_1'(x) = g_2'(x)$:
+	\begin{align*}
+	l_1': \bm{x}^T 
+			\left[\begin{array}{c c} -0.300 & 0.290 \\ 0.290 & 0.182 \end{array}\right]
+			\bm{x} + \left[\begin{array}{c} -3.203\\ 18.062\end{array}\right]^T \bm{x}
+			+4.929 =0 \\
+	\end{align*} 
+	
+	Let $g_2'(x) = g_3'(x)$:
+		\begin{align*}
+		l_2': \bm{x}^T 
+				\left[\begin{array}{c c} -0.013 & -0.559 \\ -0.559 & 0.298 \end{array}\right]
+				\bm{x} + \left[\begin{array}{c} 19.016\\ -9.603 \end{array}\right]^T \bm{x}
+				-11.070 =0 \\
+		\end{align*} 
+		
+	Let $g_1'(x) = g_3'(x)$:
+		\begin{align*}
+		l_3': \bm{x}^T 
+				\left[\begin{array}{c c} -0.312 & -0.268 \\ -0.268 & 0.480 \end{array}\right]
+				\bm{x} + \left[\begin{array}{c} 15.813 \\ 8.459 \end{array}\right]^T \bm{x}
+				-6.142 =0 \\
+		\end{align*} 
+		
+		Figure~\ref{fig:first_mle} shows the decision boundaries with the parameters
+		estimated by MLE.
+		
+		\begin{figure}[ht!]
+		\centering
+		\includegraphics[width=0.5\linewidth]{figure/figure2.png}
+		\caption{Decision Boundaries with the maximum likelihood estimates}
+		\label{fig:first_mle}
+		\end{figure}
+
+	\subsection{Another Sample}
+		Regenerate a new set of samples and estimate $\bm{\mu}_i$ and $\bm{\Sigma_i}$ with
+		MLE. The following boundaries can be obtained. And corresponding plot is showed
+		in Figure~\ref{fig:another_mle}
+		
+				\begin{figure}[ht!]
+					\centering
+					\includegraphics[width=0.5\linewidth]{figure/figure3.png}
+					\caption{Another set of data sample with corresponding decison boundaries}
+					\label{fig:another_mle}
+				\end{figure}
+
+		\begin{align*}
+		& l_1'': \bm{x}^T 
+				\left[\begin{array}{c c} 0.557 & -0.324 \\ -0.324 & 0.174 \end{array}\right]
+				\bm{x} + \left[\begin{array}{c} 1.036\\ 16.155 \end{array}\right]^T \bm{x}
+				-0.294 =0 \\
+		& l_2'': \bm{x}^T 
+				\left[\begin{array}{c c} 0.128 & 0.230 \\ 0.230 & 0.076 \end{array}\right]
+				\bm{x} + \left[\begin{array}{c} 15.522 \\ -9.542 \end{array}\right]^T \bm{x}
+				-9.387 =0 \\
+		& l_3'': \bm{x}^T 
+				\left[\begin{array}{c c} 0.686 & -0.932 \\ -0.932 & 0.249 \end{array}\right]
+				\bm{x} + \left[\begin{array}{c} 16.558 \\ 6.614 \end{array}\right]^T \bm{x}
+				-9.680 =0 
+		\end{align*} 
+		
+		\paragraph{Explanation}
+		Decision boundaries obtained from two groups of data sample are different.
+		But they also share some similarities.
+		The differences are caused by the different data samples used to estimate the parameters.
+		While the similar parts are because two groups of data samples are generated by the
+		same distribution.
+		
+		
+
+	
+
+
+\end{document}
